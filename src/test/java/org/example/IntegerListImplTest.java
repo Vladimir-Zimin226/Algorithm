@@ -150,14 +150,6 @@ public class IntegerListImplTest {
     }
 
     @Test
-    public void testValidateSize() {
-        for (int i = 0; i < 10; i++) {
-            integerList.add(i);
-        }
-        assertThrows(StorageIsFullException.class, () -> integerList.add(10));
-    }
-
-    @Test
     public void testValidateIndex() {
         integerList.add(1);
         integerList.add(2);
@@ -192,6 +184,47 @@ public class IntegerListImplTest {
         assertThrows(InvalidInputException.class, () -> integerList.remove(1));
     }
 
+
+    @Test
+    public void testGrowIfNeeded() {
+        IntegerListImpl list = new IntegerListImpl();
+        list.size = 10;
+        list.storage = new Integer[10];
+
+        list.growIfNeeded();
+
+        assertEquals(15, list.storage.length);
+    }
+
+    @Test
+    public void testQuickSort() {
+        Integer[] arr = {3, 1, 4, 1, 5, 9, 2, 6};
+        Integer[] sortedArr = {1, 1, 2, 3, 4, 5, 6, 9};
+
+        IntegerListImpl.quickSort(arr, 0, arr.length - 1);
+
+        assertArrayEquals(sortedArr, arr);
+    }
+
+    @Test
+    public void testPartition() {
+        Integer[] arr = {3, 1, 4, 1, 5, 9, 2, 6};
+        int partitionIndex = IntegerListImpl.partition(arr, 0, arr.length - 1);
+
+        assertEquals(6, partitionIndex);
+    }
+
+    @Test
+    public void testSwapElements2() {
+        Integer[] arr = {3, 1, 4};
+
+        IntegerListImpl.swapElements2(arr, 0, 2);
+
+        Integer[] expectedArr = {4, 1, 3};
+        assertArrayEquals(expectedArr, arr);
+    }
 }
+
+
 
 
